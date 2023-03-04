@@ -1,0 +1,37 @@
+name: changelog
+
+on:
+    pull_request_target:
+    types: [opened, reopened, edited, labeled, unlabeled]
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    if: "!contains(github.event.pull_request.labels.*.name, 'No changelog needed')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+      - name: Find and write changelog file
+        id: file_check
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if git status -s | grep -x "** $PR_NUMBER.*.rst"; then
+            echo "check_result=true" >> $GITHUB_OUTPUT
+          else
+            echo "check_result=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Find and write changelog file two
+        id: file_check
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if ls docs/changes | grep "$PR_NUMBER.*.rst"; then
+            echo "check_result_two=true" >> $GITHUB_OUTPUT
+          else
+            echo "check_result_two=false" >> $GITHUB_OUTPUT
+          fi
