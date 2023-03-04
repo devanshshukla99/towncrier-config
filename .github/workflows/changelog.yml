@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  update-changelog:
+  check-changelog-entry:
     if: "!contains(github.event.pull_request.labels.*.name, 'No changelog needed')"
     runs-on: ubuntu-latest
     steps:
