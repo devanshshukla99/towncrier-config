@@ -1,9 +1,9 @@
 name: changelog
 
 on:
-    pull_request:
-    branches:
-      - main
+  pull_request_target:
+    types: [opened, reopened, edited, labeled, unlabeled]
+    branches: [main]
 
 jobs:
   update-changelog:
@@ -24,7 +24,7 @@ jobs:
             echo "check_result=false" >> $GITHUB_OUTPUT
           fi
       - name: Find and write changelog file two
-        id: file_check
+        id: file_check_two
         env:
           PR_NUMBER: ${{ github.event.number }}
           PR_BODY: ${{ github.event.pull_request.body }}
