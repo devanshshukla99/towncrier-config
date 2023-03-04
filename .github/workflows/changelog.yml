@@ -1,6 +1,7 @@
 name: changelog
 
 on:
+  workflow_dispatch:
   pull_request_target:
     types: [opened, reopened, edited, labeled, unlabeled]
     branches: [main]
