@@ -2,8 +2,7 @@ name: changelog
 
 on:
   workflow_dispatch:
-  pull_request_target:
-    types: [opened, reopened, edited, labeled, unlabeled]
+  pull_request:
     branches: [main]
 
 jobs:
@@ -19,19 +18,9 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          if git status -s | grep -x "** $PR_NUMBER.*.rst"; then
-            echo "check_result=true" >> $GITHUB_OUTPUT
+          if compgen -G "docs/changes/$PR_NUMBER.*.rst"; then
+            echo "changelog exists"
           else
-            echo "check_result=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Find and write changelog file two
-        id: file_check_two
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-          PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
-          if ls docs/changes | grep "$PR_NUMBER.*.rst"; then
-            echo "check_result_two=true" >> $GITHUB_OUTPUT
-          else
-            echo "check_result_two=false" >> $GITHUB_OUTPUT
+            echo "changelog entry not found"
+            exit 1
           fi
