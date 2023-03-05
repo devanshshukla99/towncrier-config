@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-changelog-entry:
-    if: "!contains(github.event.pull_request.labels.*.name, 'No changelog needed')"
+    if: "!contains(github.event.pull_request.labels.*.name, 'no-changelog-entry-needed')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
@@ -16,7 +16,6 @@ jobs:
         id: file_check
         env:
           PR_NUMBER: ${{ github.event.number }}
-          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           if compgen -G "docs/changes/$PR_NUMBER.*.rst"; then
             echo "changelog exists"
