@@ -1,4 +1,4 @@
-name: changelog
+name: check-changelog
 
 on:
   workflow_dispatch:
@@ -12,8 +12,7 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v3
-      - name: Find and write changelog file
-        id: file_check
+      - name: Find changelog entry
         env:
           PR_NUMBER: ${{ github.event.number }}
         run: |
