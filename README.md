@@ -1,2 +1,3 @@
 # towncrier-config
-Towncrier config and workflow test
+
+This repo contains basic towncrier config with a gh-action to check the pull-requests for the changelog snippit.
